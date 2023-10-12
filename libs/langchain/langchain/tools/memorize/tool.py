@@ -9,11 +9,10 @@ from langchain.tools.base import BaseTool
 class Memorize(BaseTool):
     name: str = "Memorize"
     description: str = (
-        "You should use this tool whenever you observed notable information from another tool's action outputs or human. The action input should include the observed information details in a natural language, then the tool will fine-tune yourself to remember the information."
-
-        # "Useful whenever you observe any notable information from another tool's action outputs or human. "
-        # "Input should be the information details in a natural language, which will be used to fine-tune yourself to remember the information. "
-        # "Output is a JSON object including the loss"
+        "You should use this tool whenever you observed notable information "
+        "from another tool's action outputs or human. The action input should "
+        "include the observed information details in a natural language, then "
+        "the tool will fine-tune yourself to remember the information."
     )
     llm: TrainableLLM = Field()
 
