@@ -1,6 +1,9 @@
 from typing import Optional
 
-from langchain.callbacks.manager import CallbackManagerForToolRun
+from langchain.callbacks.manager import (
+    AsyncCallbackManagerForToolRun,
+    CallbackManagerForToolRun,
+)
 from langchain.llms.base import TrainableLLM
 from langchain.pydantic_v1 import Field
 from langchain.tools.base import BaseTool
@@ -27,7 +30,7 @@ class Memorize(BaseTool):
     async def _arun(
         self,
         information_to_learn: str,
-        run_manager: Optional[CallbackManagerForToolRun] = None,
+        run_manager: Optional[AsyncCallbackManagerForToolRun] = None,
     ) -> str:
         train_result = await self.llm._atrain_unsupervised((information_to_learn,))
         return f"Train complete. Loss: {train_result.loss}"
