@@ -12,10 +12,11 @@ from langchain.tools.base import BaseTool
 class Memorize(BaseTool):
     name: str = "Memorize"
     description: str = (
-        "You should use this tool whenever you observed notable information "
-        "from another tool's action outputs or human. The action input should "
-        "include the observed information details in a natural language, then "
-        "the tool will fine-tune yourself to remember the information."
+        "Useful whenever you observed novel information "
+        "from previous conversation history, "
+        "i.e., another tool's action outputs or human comments. "
+        "The action input should include observed information in detail, "
+        "then the tool will fine-tune yourself to remember it."
     )
     llm: TrainableLLM = Field()
 
