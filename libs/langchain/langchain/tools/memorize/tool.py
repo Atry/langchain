@@ -1,12 +1,31 @@
-from typing import Optional
+from abc import abstractmethod
+from typing import Any, Optional, Protocol, Sequence
 
 from langchain.callbacks.manager import (
     AsyncCallbackManagerForToolRun,
     CallbackManagerForToolRun,
 )
-from langchain.llms.base import TrainableLLM
+from langchain.llms.gradient_ai import TrainResult
 from langchain.pydantic_v1 import Field
 from langchain.tools.base import BaseTool
+
+
+class TrainableLLM(Protocol):
+    @abstractmethod
+    def train_unsupervised(
+        self,
+        inputs: Sequence[str],
+        **kwargs: Any,
+    ) -> TrainResult:
+        ...
+
+    @abstractmethod
+    async def atrain_unsupervised(
+        self,
+        inputs: Sequence[str],
+        **kwargs: Any,
+    ) -> TrainResult:
+        ...
 
 
 class Memorize(BaseTool):
@@ -25,7 +44,7 @@ class Memorize(BaseTool):
         information_to_learn: str,
         run_manager: Optional[CallbackManagerForToolRun] = None,
     ) -> str:
-        train_result = self.llm._train_unsupervised((information_to_learn,))
+        train_result = self.llm.train_unsupervised((information_to_learn,))
         return f"Train complete. Loss: {train_result.loss}"
 
     async def _arun(
@@ -33,5 +52,5 @@ class Memorize(BaseTool):
         information_to_learn: str,
         run_manager: Optional[AsyncCallbackManagerForToolRun] = None,
     ) -> str:
-        train_result = await self.llm._atrain_unsupervised((information_to_learn,))
+        train_result = await self.llm.atrain_unsupervised((information_to_learn,))
         return f"Train complete. Loss: {train_result.loss}"
